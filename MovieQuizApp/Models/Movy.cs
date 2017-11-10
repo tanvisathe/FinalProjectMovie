@@ -25,6 +25,7 @@ namespace MovieQuizApp.Models
         public string genre { get; set; }
         public string primaryReleaseDate { get; set; }
         public string VoteAverage { get; set; }
+        public string Overview { get; set; }
 
 
 

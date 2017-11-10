@@ -149,21 +149,25 @@ namespace MovieQuizApp.Controllers
             List<string> genrelist = new List<string>();         
             List<string> languagelist = new List<string>();
             List<string> picturelist = new List<string>();
+            List<string> overviewlist = new List<string>();
             //List<string> genrelist1 = new List<string>();
             for (int i = 0; i < o["results"].Count(); i++)
             {
                 string genres = o["results"][i]["original_title"].ToString();
                 string language = o["results"][i]["original_language"].ToString();
                 string picture = o["results"][i]["poster_path"].ToString();
+                string overview1 = o["results"][i]["overview"].ToString();
                 //string genres1 = o["results"][i]["release_date"].ToString();
                 genrelist.Add(genres);
                 languagelist.Add(language);
                 picturelist.Add("http://image.tmdb.org/t/p/w300" + picture);
+                overviewlist.Add(overview1);
                 // genrelist1.Add(genres1);
             }
             ViewBag.AllGenres = genrelist;
             ViewBag.AllLanguages = languagelist;
             ViewBag.AllPictures = picturelist;
+            ViewBag.AllOverviews = overviewlist;
             Random r = new Random();
             int rando = r.Next(0, 20);
             for (int i = 0; i < genrelist.Count(); i++)
@@ -171,6 +175,7 @@ namespace MovieQuizApp.Controllers
                 ViewBag.MovieTitle = genrelist.ElementAt(rando);
                 ViewBag.AllLanguages = languagelist.ElementAt(rando);
                 ViewBag.AllPictures = picturelist.ElementAt(rando);
+                ViewBag.AllOverviews = overviewlist.ElementAt(rando);
             }
             ////Code to save movie title in database begins..
             ////*******************************************************************
