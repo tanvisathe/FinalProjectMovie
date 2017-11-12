@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="MovieQuizDbEntities-Web.config Connection String" description="MovieQuizDbEntities Connection String used in web.config by the application to access the database." defaultValue="metadata=res://*/Models.RegistrationModel.csdl|res://*/Models.RegistrationModel.ssdl|res://*/Models.RegistrationModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=NETWEAVER\SQLEXPRESS;initial catalog=MovieQuiz;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Tanvi\\Desktop\\FP\\MovieQuizApp\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='MovieQuizDbEntities']/@connectionString" />
+  </parameter>
+  <parameter name="MovieQuizApp_dbEntities-Web.config Connection String" description="MovieQuizApp_dbEntities Connection String used in web.config by the application to access the database." defaultValue="metadata=res://*/Models.RemoteModel.csdl|res://*/Models.RemoteModel.ssdl|res://*/Models.RemoteModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=tsathe.database.windows.net;initial catalog=MovieQuizApp_db;user id=tsathe;password=4049Azure#$;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Tanvi\\Desktop\\FP\\MovieQuizApp\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='MovieQuizApp_dbEntities']/@connectionString" />
+  </parameter>
+</parameters>

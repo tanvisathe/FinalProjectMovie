@@ -11,24 +11,13 @@ namespace MovieQuizApp.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
+    
     public partial class Movy
     {
-        [Key]
         public int MovieId { get; set; }
-        //How to add foreign Key attribute
-        [ForeignKey("Registration")]
         public int UserID { get; set; }
         public string Title { get; set; }
-        public string genre { get; set; }
-        public string primaryReleaseDate { get; set; }
-        public string VoteAverage { get; set; }
-        public string Overview { get; set; }
-
-
-
+    
         public virtual Registration Registration { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace MovieQuizApp.Controllers
 {
     public class MoviesController : Controller
     {
-        private MovieQuizDbEntities db = new MovieQuizDbEntities();
+        private MovieQuizApp_dbEntities db = new MovieQuizApp_dbEntities();
 
         // GET: Movies
         public ActionResult Index()

@@ -155,11 +155,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Descriptor.cs" />
+    <Compile Include="Models\IMovieMetaData.cs" />
+    <Compile Include="Models\IRegistrationMetaData.cs" />
     <Compile Include="Models\Movy.cs">
-      <DependentUpon>RegistrationModel.tt</DependentUpon>
+      <DependentUpon>RemoteModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Registration.cs">
-      <DependentUpon>RegistrationModel.tt</DependentUpon>
+      <DependentUpon>RemoteModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RegistrationModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -175,6 +178,21 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>RegistrationModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RemoteModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RemoteModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RemoteModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RemoteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RemoteModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RemoteModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -195,6 +213,16 @@
       <DependentUpon>RegistrationModel.edmx</DependentUpon>
       <LastGenOutput>RegistrationModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\RemoteModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>RemoteModel.edmx</DependentUpon>
+      <LastGenOutput>RemoteModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\RemoteModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>RemoteModel.edmx</DependentUpon>
+      <LastGenOutput>RemoteModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -207,6 +235,15 @@
     <Content Include="Models\RegistrationModel.edmx.diagram">
       <DependentUpon>RegistrationModel.edmx</DependentUpon>
     </Content>
+    <EntityDeploy Include="Models\RemoteModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>RemoteModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\RemoteModel.edmx.diagram">
+      <DependentUpon>RemoteModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Content\bootstrap-darkly.css" />
+    <None Include="Properties\PublishProfiles\MovieQuizApp - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

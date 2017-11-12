@@ -15,7 +15,7 @@ namespace MovieQuizApp.Controllers
     public class HomeController : Controller
     {
 
-        private MovieQuizDbEntities db = new MovieQuizDbEntities();//reference to our MovieQuiz Databse
+        private MovieQuizApp_dbEntities db = new MovieQuizApp_dbEntities();//reference to our MovieQuiz Databse
       Registration user; // global user variable of registration
        
               
@@ -23,7 +23,7 @@ namespace MovieQuizApp.Controllers
         public ActionResult Index()
         {
             return View();
-        }
+        } 
         
         public ActionResult Register()
         {
@@ -67,10 +67,7 @@ namespace MovieQuizApp.Controllers
                 {
                     Session["UserID"] = details.FirstOrDefault().UserID;
                     Session["Username"] = details.FirstOrDefault().Username;
-               // user = db.Registrations.Find(Session["UserId"]);
-           
-
-
+                        
                 return RedirectToAction("Welcome", "Home");
                 }
             
@@ -106,21 +103,16 @@ namespace MovieQuizApp.Controllers
         }
 
 
-        public ActionResult GetData(Movy m)
+        public ActionResult GetData(Descriptor d)
         {
             Registration u = new Registration();
-            string genreID = m.genre;
-            string primaryreleasedate = m.primaryReleaseDate;
-            string voteaverage = m.VoteAverage;
-            
-
-            
-            //Make a request but don't send it yet
            
-            
+            string genreID = d.genre;
+            string primaryreleasedate = d.primaryReleaseDate;
+            string voteaverage = d.VoteAverage;
+                       
+            //Make a request but don't send it yet                      
             HttpWebRequest request = WebRequest.CreateHttp("http://api.themoviedb.org/3/discover/movie?api_key=92d7084568b97fb382838cc03254d49e&language=en-US&with_genres=" + (genreID) + "&" + (primaryreleasedate) + "&" + (voteaverage) + "&type=Json");
-
-
 
             //Tell it the list of browsers we're using
             //request.UserAgent = @"User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36";
@@ -146,46 +138,46 @@ namespace MovieQuizApp.Controllers
             //With the array portion you can use  the .ToList() or ToArray() methods to make a collection
             //of JTokens
             //ViewBag.Production = o["operationalMode"];
-            List<string> genrelist = new List<string>();         
+            List<string> titlelist = new List<string>();         
             List<string> languagelist = new List<string>();
             List<string> picturelist = new List<string>();
             List<string> overviewlist = new List<string>();
             //List<string> genrelist1 = new List<string>();
             for (int i = 0; i < o["results"].Count(); i++)
             {
-                string genres = o["results"][i]["original_title"].ToString();
+                string title = o["results"][i]["original_title"].ToString();
                 string language = o["results"][i]["original_language"].ToString();
                 string picture = o["results"][i]["poster_path"].ToString();
                 string overview1 = o["results"][i]["overview"].ToString();
                 //string genres1 = o["results"][i]["release_date"].ToString();
-                genrelist.Add(genres);
+                titlelist.Add(title);
                 languagelist.Add(language);
                 picturelist.Add("http://image.tmdb.org/t/p/w300" + picture);
                 overviewlist.Add(overview1);
                 // genrelist1.Add(genres1);
             }
-            ViewBag.AllGenres = genrelist;
+            ViewBag.Titles = titlelist;
             ViewBag.AllLanguages = languagelist;
             ViewBag.AllPictures = picturelist;
             ViewBag.AllOverviews = overviewlist;
             Random r = new Random();
             int rando = r.Next(0, 20);
-            for (int i = 0; i < genrelist.Count(); i++)
+            for (int i = 0; i < titlelist.Count(); i++)
             {
-                ViewBag.MovieTitle = genrelist.ElementAt(rando);
+                ViewBag.Titles = titlelist.ElementAt(rando);
                 ViewBag.AllLanguages = languagelist.ElementAt(rando);
                 ViewBag.AllPictures = picturelist.ElementAt(rando);
                 ViewBag.AllOverviews = overviewlist.ElementAt(rando);
             }
             ////Code to save movie title in database begins..
             ////*******************************************************************
-            m.Title = ViewBag.MovieTitle;
-
+            Movy m = new Movy();
+                                
             if (ModelState.IsValid)
             {
 
                 m.UserID = int.Parse(Session["UserID"].ToString());                            
-                m.Title = ViewBag.MovieTitle;
+                m.Title = ViewBag.Titles;
                 db.Movies.Add(m);
 
                 db.SaveChanges();
@@ -194,34 +186,6 @@ namespace MovieQuizApp.Controllers
             }
             //*******************************************************************
 
-            ////ViewBag.AllGenres1 = genrelist1;
-
-            //for (int i = 0; i < o["Search"].Count(); i++)
-            //{
-            //    ViewBag.Production += o["Search"][i]["Title"];
-            //}
-
-            //ViewBag.genreCount = o["genres"].Count();
-
-            //ViewBag.Time = o["time"]["startPeriodName"][0];
-            //ViewBag.ApiText = "Tomorrow's Temperature is " + o["data"]["temperature"][2] + " as of " + o["creationDateLocal"];
-            //ViewBag.JSONData = "" + o["productionCenter"];
-            ////You can step through data just like an array
-            //ViewBag.Temp = o["data"]["temperature"][4];
-
-            //ViewBag.Json = o.ToString();
-            //List<JToken> times = o["time"].ToList();
-            //List<string> temps = new List<string>();
-            //https://stackoverflow.com/questions/9198426/mvc3-putting-a-newline-in-viewbag-text
-            //You want the front end to care about presenting data, so we do our newlines there
-            //for (int i = 0; i < o["data"]["temperature"].Count(); i++)
-            //{
-            //    //string timeLabel = times[i].ToString();
-            //    //string input = o["time"]["startPeriodName"][i] + " " + o["time"]["tempLabel"][i] + " " + o["data"]["temperature"][i].ToString();
-
-            //    temps.Add(input);
-            //}
-            //ViewBag.AllTemps = temps;
 
             return View();
         }
