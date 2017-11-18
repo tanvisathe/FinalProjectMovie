@@ -8,6 +8,9 @@ using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Net;
 using System.Web.Security;
+using System.Data.Sql;
+using System.Data.SqlClient; //need for reading SQL database
+using System.Text; //need for code reading SQL database
 
 
 namespace MovieQuizApp.Controllers
@@ -16,14 +19,16 @@ namespace MovieQuizApp.Controllers
     {
 
         private MovieQuizApp_dbEntities db = new MovieQuizApp_dbEntities();//reference to our MovieQuiz Databse
-      Registration user; // global user variable of registration
-       
-              
+        //Registration user; // global user variable of registration
+
+ 
 
         public ActionResult Index()
         {
             return View();
         } 
+
+
         
         public ActionResult Register()
         {
@@ -38,11 +43,9 @@ namespace MovieQuizApp.Controllers
             if (ModelState.IsValid)
             {
                 db.Registrations.Add(reg);
-                db.SaveChanges();
+                db.SaveChanges();               
                 return RedirectToAction("Index");
             }
-
-
             return View();
         }
 
@@ -52,45 +55,55 @@ namespace MovieQuizApp.Controllers
             return View();
         }
 
+        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(Registration reg)
         {
-                var details = (from userlist in db.Registrations
-                               where userlist.Username == reg.Username && userlist.Password == userlist.Password
-                               select new
-                               {
-                                   userlist.UserID,
-                                   userlist.Username
-                               }).ToList();
-                if(details.FirstOrDefault()!= null)
+            if (ModelState.IsValid)
+            {
+                using (MovieQuizApp_dbEntities db = new MovieQuizApp_dbEntities())
                 {
-                    Session["UserID"] = details.FirstOrDefault().UserID;
-                    Session["Username"] = details.FirstOrDefault().Username;
-                        
-                return RedirectToAction("Welcome", "Home");
+                    var obj = db.Registrations.Where(a => a.Username.Equals(reg.Username) && a.Password.Equals(reg.Password)).FirstOrDefault();
+                    ViewBag.IsloggedIn = true;
+                    
+                    if (obj != null)
+                    {
+                        Session["UserID"] = obj.UserID.ToString();
+                        Session["UserName"] = obj.Username.ToString();
+                        ViewBag.UserName = obj.Username.ToString();
+                        ViewBag.USERid = obj.UserID.ToString();
+                        return RedirectToAction("Welcome", "Home");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Invalid Credentials");
+                    }
                 }
-            
-            
-               // ModelState.AddModelError("", "Invalid Credentials");
-            
-
+            }
+           
             return View(reg);
         }
-
-
-       
 
         public ActionResult LogOut()
         {
             FormsAuthentication.SignOut();
             Session.Abandon();
             //return View();
-            return RedirectToAction("Index", "Home");
+            return View();
         }
 
 
         public ActionResult Welcome()
+        {
+            ViewBag.UserName = Session["Username"];
+            ViewBag.USERid = Session["UserID"];
+            
+            return View();
+        }
+
+        public ActionResult MovieNotFound()
         {
             return View();
         }
@@ -105,94 +118,104 @@ namespace MovieQuizApp.Controllers
 
         public ActionResult GetData(Descriptor d)
         {
-            Registration u = new Registration();
+            Registration registration = new Registration();
            
             string genreID = d.genre;
             string primaryreleasedate = d.primaryReleaseDate;
             string voteaverage = d.VoteAverage;
-                       
-            //Make a request but don't send it yet                      
-            HttpWebRequest request = WebRequest.CreateHttp("http://api.themoviedb.org/3/discover/movie?api_key=92d7084568b97fb382838cc03254d49e&language=en-US&with_genres=" + (genreID) + "&" + (primaryreleasedate) + "&" + (voteaverage) + "&type=Json");
+            string primarylanguage = d.PrimaryLanguage;
 
-            //Tell it the list of browsers we're using
-            //request.UserAgent = @"User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36";
+            ViewBag.UserName = Session["Username"];
+            ViewBag.USERid = Session["UserID"];
 
-            //If you need to use OAuth or Keys there will be a few extra steps right around here you go on to 
-            //grab a response.
-            //push the request over to the remote server 
-              HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+           
+            HttpWebRequest request = WebRequest.CreateHttp("http://api.themoviedb.org/3/discover/movie?api_key=92d7084568b97fb382838cc03254d49e&language=en-US&with_genres=" + (genreID) + "&" + (primaryreleasedate) + "&" + (voteaverage) + "&" + (primarylanguage) + "&type=Json");
+            
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-            //Parse the response data (this looks a lot like reading in a text file, file I/O)
+           
              StreamReader rd = new StreamReader(response.GetResponseStream());
 
             //Return the data in string format 
              String data = rd.ReadToEnd();
 
-            //This is where things change based upon whether we're using XML or Json
-            //Personally I prefer JSON, but they're equivalent to each other
+            
             JObject o = JObject.Parse(data);
 
-            //Now we can step through the JSON data 
-            //the way to approach this is to think of every tag either contains a string array or points 
-            //to another list. As you try to construct this always always have the JSON viewer open
-            //With the array portion you can use  the .ToList() or ToArray() methods to make a collection
-            //of JTokens
-            //ViewBag.Production = o["operationalMode"];
+            
             List<string> titlelist = new List<string>();         
             List<string> languagelist = new List<string>();
             List<string> picturelist = new List<string>();
             List<string> overviewlist = new List<string>();
-            //List<string> genrelist1 = new List<string>();
+            List<string> primaryreleasedatelist = new List<string>();
+            List<string> voteaveragelist = new List<string>();
+           
             for (int i = 0; i < o["results"].Count(); i++)
             {
                 string title = o["results"][i]["original_title"].ToString();
                 string language = o["results"][i]["original_language"].ToString();
                 string picture = o["results"][i]["poster_path"].ToString();
                 string overview1 = o["results"][i]["overview"].ToString();
-                //string genres1 = o["results"][i]["release_date"].ToString();
+                string primaryreleasedate1 = o["results"][i]["release_date"].ToString();
+                string voteaverage1 = o["results"][i]["vote_average"].ToString();
+
                 titlelist.Add(title);
                 languagelist.Add(language);
                 picturelist.Add("http://image.tmdb.org/t/p/w300" + picture);
                 overviewlist.Add(overview1);
-                // genrelist1.Add(genres1);
+                primaryreleasedatelist.Add(primaryreleasedate1);
+                voteaveragelist.Add(voteaverage1);
+
             }
+
             ViewBag.Titles = titlelist;
             ViewBag.AllLanguages = languagelist;
             ViewBag.AllPictures = picturelist;
             ViewBag.AllOverviews = overviewlist;
+            ViewBag.AllPrimaryReleaseDates = primaryreleasedatelist;
+            ViewBag.AllVoteAverages = voteaveragelist;
+
+            
             Random r = new Random();
             int rando = r.Next(0, 20);
-            for (int i = 0; i < titlelist.Count(); i++)
+
+            try
             {
-                ViewBag.Titles = titlelist.ElementAt(rando);
-                ViewBag.AllLanguages = languagelist.ElementAt(rando);
-                ViewBag.AllPictures = picturelist.ElementAt(rando);
-                ViewBag.AllOverviews = overviewlist.ElementAt(rando);
+                for (int i = 0; i < titlelist.Count(); i++)
+
+                {
+                    ViewBag.Titles = titlelist.ElementAt(rando);
+                    ViewBag.AllLanguages = languagelist.ElementAt(rando);
+                    ViewBag.AllPictures = picturelist.ElementAt(rando);
+                    ViewBag.AllOverviews = overviewlist.ElementAt(rando);
+                    ViewBag.AllPrimaryReleaseDates = primaryreleasedatelist.ElementAt(rando);
+                    ViewBag.AllVoteAverages = voteaveragelist.ElementAt(rando);
+                }
             }
+
+            catch (Exception)
+
+            {
+                return RedirectToAction("MovieNotFound", "Home");
+            }
+
             ////Code to save movie title in database begins..
             ////*******************************************************************
             Movy m = new Movy();
                                 
             if (ModelState.IsValid)
             {
-
                 m.UserID = int.Parse(Session["UserID"].ToString());                            
                 m.Title = ViewBag.Titles;
                 db.Movies.Add(m);
-
                 db.SaveChanges();
                 return View();
 
             }
             //*******************************************************************
-
-
+            
             return View();
         }
-
-
-
-
 
         public ActionResult Contact()
         {
