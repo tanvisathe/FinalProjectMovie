@@ -5,56 +5,75 @@
     <meta charset="utf-8" />
     <title></title>
 </head>
-<body>
-
-   
-
-
+<body>   
     <h2>Welcome @Session["Username"].ToString()</h2>
-    <h2>Movie Form</h2>
+    <h3>Ready to find a movie to watch?</h3>
    
     <div class="container">
         <form action="GetData" method="post">
             <br />
             <fieldset>
+                <div class="form-group">
+                    <label>Dim the lights. What mood are you trying to be in?</label>
+                    <br>
+                    <select name="genre" class="form-control" >
+                        <option value="28">Live fast & die young (Action)</option>
+                        <option value="12">You only live once (Adventure)</option>
+                        <option value="16">Sing alongs & manga (Animation)</option>
+                        <option value="35">Laugh it off (Comedy)</option>
+                        <option value="80">Ready to find out who killed JFK? (Crime)</option>
+                        <option value="99">*Morgan Freeman*  (Documentary)</option>
+                        <option value="18">Grab some tissues (Drama)</option>
+                        <option value="10751">All audiences (Family)</option>
+                        <option value="14">The sorting hat wants you to pick (Fantasy)</option>
+                        <option value="36">Wach REAL history come alive(History)</option>
+                        <option value="27">Ghouls & ghosts (Horror)</option>
+                        <option value="9648">Be a spy Find the clue (Mystery)</option>
+                        <option value="10749">Netflix and chill (Romance)</option>                                              
+                        <option value="53">Thriller isn't just a song (Thriller)</option>
+                        <option value="10752">World war III? (War)</option>
+                    </select><br />
+                    </div>
+                <div class="form-group">
+                    <label>Pick your Favorite Decade:</label>
+                    <br>
+                    <select name="primaryReleaseDate" class="form-control">
+                        <option value="primary_release_date.gte=1900-01-01&primary_release_date.lte=1959-12-31">1900's - 1950's</option>
+                        <option value="primary_release_date.gte=1960-01-01&primary_release_date.lte=1969-12-31">1960's</option>
+                        <option value="primary_release_date.gte=1970-01-01&primary_release_date.lte=1979-12-31">1970's</option>
+                        <option value="primary_release_date.gte=1980-01-01&primary_release_date.lte=1989-12-31">1980's</option>
+                        <option value="primary_release_date.gte=1990-01-01&primary_release_date.lte=1999-12-31">1990's</option>
+                        <option value="primary_release_date.gte=2000-01-01&primary_release_date.lte=2009-12-31">2000's</option>
+                        <option value="primary_release_date.gte=2010-01-01&primary_release_date.lte=2017-11-01">2010 - current</option>
+                    </select><br />
+                </div>
 
-                Genre:<br>
-                <select name="genre">
-                    <option value="28">Action</option>
-                    <option value="12">Adventure</option>
-                    <option value="16">Animation</option>
-                    <option value="80">Crime</option>
-                    <option value="99">Documentary</option>
-                    <option value="18">Drama</option>
-                    <option value="27">Horror</option>
-                    <option value="10749">Romance</option>
-                </select><br />
-
-                Filter by Release Date:<br>
-                <select name="primaryReleaseDate">
-                    <option value="primary_release_date.gte=1900-01-01&primary_release_date.lte=1959-12-31">1900's - 1950's</option>
-                    <option value="primary_release_date.gte=1960-01-01&primary_release_date.lte=1969-12-31">1960's</option>
-                    <option value="primary_release_date.gte=1970-01-01&primary_release_date.lte=1979-12-31">1970's</option>
-                    <option value="primary_release_date.gte=1980-01-01&primary_release_date.lte=1989-12-31">1980's</option>
-                    <option value="primary_release_date.gte=1990-01-01&primary_release_date.lte=1999-12-31">1990's</option>
-                    <option value="primary_release_date.gte=2000-01-01&primary_release_date.lte=2009-12-31">2000's</option>
-                    <option value="primary_release_date.gte=2010-01-01&primary_release_date.lte=2017-11-01">2010 - current</option>
-
-                </select><br />
-
-                Filter by vote:<br>
-                <select name="VoteAverage">
-                    <option value="vote_average.gte=0&vote_average.lte=5">Obscure hipster "good-bad" film</option>
-                    <option value="vote_average.gte=5&vote_average.lte=10">An actual good movie</option>
-                </select><br />
-
-                <input type="submit" value="Find your movie"> <input type="reset"><br>
-
-            </fieldset>
-
-
-
-
+                <div class="form-group">
+                    <label>Pick by Popularity:</label>    
+                    <br>
+                    <select name="VoteAverage" class="form-control">
+                        <option value="vote_average.gte=0&vote_average.lte=5">Obscure hipster "good-bad" film</option>
+                        <option value="vote_average.gte=5&vote_average.lte=10">An actual good movie</option>
+                    </select><br />
+                </div>
+                <div class="form-group">
+                    <label>Pick by Language:</label>   
+                    <br>
+                    <select name="PrimaryLanguage" class="form-control">
+                        <option value="with_original_language=en">English</option>
+                        <option value="with_original_language=es">Spanish</option>
+                        <option value="with_original_language=fr">French</option>
+                        <option value="with_original_language=hi">Hindi</option>
+                        <option value="with_original_language=ja">Japanese</option>
+                        <option value="with_original_language=pt">Portuguese</option>
+                        <option value="with_original_language=ar">Arabic</option>
+                        <option value="with_original_language=ru">Russian</option>
+                        <option value="with_original_language=">Give me whatever!</option>
+                    </select>
+                 </div>
+                    <br />
+                    <input type="submit" value="Find your movie" class="btn btn-success"> <input type="reset" class="btn btn-success"><br>
+        </fieldset>
         </form>
     </div>
 

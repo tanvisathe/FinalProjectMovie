@@ -1,9 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@using MovieQuizApp.Models;
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Pick Flicks Quick App</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -16,18 +18,28 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Pick Flicks Quick", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @if (ViewBag.UserName != null)
+                    {
+                    <li>@Html.ActionLink("Take Quiz Again", "Welcome", "Home")</li>
+                    }
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>@Html.ActionLink("Register", "Register", "Home")</li>
-                    <li>@Html.ActionLink("Login", "Login", "Home")</li>
-                    <li>@Html.ActionLink("Logout", "LogOut", "Home")</li>
+                    @if (ViewBag.UserName!=null)
+                    {
+                        <li>@Html.ActionLink("Logout", "LogOut", "Home")</li>                        
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Login", "Login", "Home")</li>
+                    }
 
                 </ul>
             </div> 
@@ -37,7 +49,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Pick Flicks Quick Application</p>
         </footer>
     </div>
 

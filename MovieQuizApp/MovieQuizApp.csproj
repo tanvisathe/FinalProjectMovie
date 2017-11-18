@@ -199,6 +199,8 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Image\developherlogo.png" />
+    <Content Include="Content\Image\developHers.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -262,7 +264,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -279,6 +283,7 @@
     <Content Include="Views\Movies\Edit.cshtml" />
     <Content Include="Views\Movies\Index.cshtml" />
     <Content Include="Views\Home\Logout.cshtml" />
+    <Content Include="Views\Home\MovieNotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

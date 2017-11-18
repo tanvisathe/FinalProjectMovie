@@ -11,6 +11,7 @@ namespace MovieQuizApp.Models
         public string primaryReleaseDate { get; set; }
         public string VoteAverage { get; set; }
         public string Overview { get; set; }
+        public string PrimaryLanguage { get; set; }
 
     }
 }

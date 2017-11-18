@@ -8,7 +8,7 @@ namespace MovieQuizApp.Models
          int UserID { get; set; }
 
         [Display(Name = "First Name")]
-        [Required]
+        //[Required]
          string FirstName { get; set; }
 
         [Display(Name = "Last Name")]
@@ -25,7 +25,7 @@ namespace MovieQuizApp.Models
 
         [Display(Name = "Email")]
         [EmailAddress]
-        [Required]
+       // [Required]
          string Email { get; set; }
 
         [Display(Name = "Mobile")]

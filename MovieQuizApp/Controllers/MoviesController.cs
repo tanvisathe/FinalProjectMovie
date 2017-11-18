@@ -58,6 +58,7 @@ namespace MovieQuizApp.Controllers
             }
 
             ViewBag.UserID = new SelectList(db.Registrations, "UserID", "FirstName", movy.UserID);
+            
             return View(movy);
         }
 

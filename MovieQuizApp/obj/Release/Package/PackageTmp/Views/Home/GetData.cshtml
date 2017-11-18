@@ -1,18 +1,43 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <title></title>
-</head>
-<body>
-  
-    <h1>Wait for it!!!</h1>
-    <p>@ViewBag.Titles </p>
-    <p>@ViewBag.AllLanguages</p>
-    <p><img src="@ViewBag.AllPictures" /></p>
-    <p>@ViewBag.AllOverviews</p>
-    
+    <style>
+        table, th, td {
+            border: 1px solid transparent;
+            border-collapse: collapse;
+        }
 
+        th, td {
+            padding: 5px;
+            text-align: left;
+            vertical-align: top;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container container-fluid ">
+        <center>
+            <table style="width:50%">
+                <tr>
+                    <td><h3>@ViewBag.Titles</h3></td>
+                    <td><h3>★@ViewBag.AllVoteAverages/10</h3></td>
+                </tr>
+                <tr>
+                    <th rowspan="2"><p><img src="@ViewBag.AllPictures" /></p></th>
+                    <td>
+                        Release Date:
+                        <p>@ViewBag.AllPrimaryReleaseDates</p>
+                        <p>@ViewBag.AllOverviews</p><br />
+                        <p>@ViewBag.LastMovieSeen</p>
+
+                        <form action="GetData" method="post"> <input type="submit" value="Get Another Movie" class="btn btn-success btn-lg"></form>
+                    </td>
+                </tr>
+            </table>
+        </center>
+    </div>
 </body>
 </html>
