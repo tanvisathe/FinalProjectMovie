@@ -44,7 +44,7 @@ namespace MovieQuizApp.Controllers
             {
                 db.Registrations.Add(reg);
                 db.SaveChanges();               
-                return RedirectToAction("Index");
+                return RedirectToAction("Login");
             }
             return View();
         }
@@ -127,6 +127,7 @@ namespace MovieQuizApp.Controllers
 
             ViewBag.UserName = Session["Username"];
             ViewBag.USERid = Session["UserID"];
+
 
            
             HttpWebRequest request = WebRequest.CreateHttp("http://api.themoviedb.org/3/discover/movie?api_key=92d7084568b97fb382838cc03254d49e&language=en-US&with_genres=" + (genreID) + "&" + (primaryreleasedate) + "&" + (voteaverage) + "&" + (primarylanguage) + "&type=Json");
