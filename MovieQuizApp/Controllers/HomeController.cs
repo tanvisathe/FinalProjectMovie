@@ -200,6 +200,32 @@ namespace MovieQuizApp.Controllers
                 return RedirectToAction("MovieNotFound", "Home");
             }
 
+            //Data Manipulation Code goes here
+
+            registration.UserID = int.Parse(ViewBag.USERid);
+
+            //  var dbSqlQuery = db.Movies.SqlQuery("SELECT * FROM dbo.Movies WHERE UserID = '" + registration.UserID + "'").ToList().LastOrDefault().Title;
+            //    ViewBag.LastMovieSeen = dbSqlQuery;
+
+            //Another way to manipulate data without using SQL
+            using (MovieQuizApp_dbEntities context = new MovieQuizApp_dbEntities())
+            {
+                Registration reg = context.Registrations.FirstOrDefault(s => s.UserID == registration.UserID);
+
+                if (reg.Movies.Count == 0)
+                {
+                    ViewBag.LastMovieSeen = "Nothing Viewed Yet";
+                }
+                else
+                {
+                    ViewBag.LastMovieSeen = reg.Movies.ToList().LastOrDefault().Title;
+
+                }
+
+            }
+
+
+
             ////Code to save movie title in database begins..
             ////*******************************************************************
             Movy m = new Movy();
